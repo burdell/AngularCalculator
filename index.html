@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div ng-app="myApp">
+			<script type="text/ng-template" id="template.html">
+				<div>
+					<div>
+						<input placeholder="New Field Name" ng-model="newName" type="text">
+						<input placeholder="New Field Value" ng-model="newValue" type="number">
+						<button ng-click="addField(newName, newValue)">Add Field</button>
+					</div>
+					<br />
+					<div ng-repeat="(name, value) in fieldValues track by name | orderBy:'{{ name | lowercase }}'">
+						<button ng-click="removeField(name)"> X </button>
+						<label>{{name}}: </label><input ng-model="fieldValues[name]" type="number"/>
+					</div>
+					<br /><br />
+					<div>
+						<input style="width: 200px;" ng-model="newCalculation">
+						<button ng-disabled="!newCalculation" ng-click="addCalculation(newCalculation)">Add Calculation</button>
+					</div>
+					<div ng-repeat="calc in calculations">
+						<button ng-click="calculations.splice($index, 1)"> X </button>
+						<input style="width: 200px;" ng-change="calc.value = calculate(calc.string, getFieldValueNumbers())" ng-model="calc.string" type="text"/>
+						 = {{ calc.value }}
+					</div>
+			   </div>
+			</script>
+
+			<calculator values="{ pi: 3.14, r: 12, e:.66789 }" calculations="pi * r * r, e * r" ></calculator>
+		</div>
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+		<script type="text/javascript" src="calculator.js"></script>		
+	</body>
+</html>
